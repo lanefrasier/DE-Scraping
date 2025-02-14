@@ -33,3 +33,5 @@ pr_6 = (price[11].text + "$/Month")
 data = [[ty_1, pr_1], [ty_2, pr_2],[ty_3, pr_3],[ty_4, pr_4],[ty_5, pr_5],[ty_6, pr_6]]
 df = pd.DataFrame(data, columns=['Plan_type', 'Price'])
 print(df)
+
+driver.quit()
