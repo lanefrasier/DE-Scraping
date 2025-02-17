@@ -2,66 +2,64 @@ import sys
 import time
 import json
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
+# Ensure a ZIP code is provided
 if len(sys.argv) > 1:
-    current_zip = sys.argv[1]  # Get zip code from PAD
+    current_zip = sys.argv[1]
     print(f"Processing ZIP Code: {current_zip}")
 else:
-    print("No ZIP Code provided!")
-
+    print(json.dumps({"error": "No ZIP Code provided!"}))
+    sys.exit(1)
 
 # Construct the URL using the zip code variable
 url = f"https://shop.directenergy.com/search-for-plans?zipCode={current_zip}"
 
-# Initialize the webdriver (this example uses Firefox; adjust if using Chrome)
-driver = webdriver.Firefox()
+# Set Firefox options to change cache location
+options = Options()
+options.set_preference("browser.cache.disk.enable", True)
+options.set_preference("browser.cache.disk.parent_directory", "C:\\Users\\LFrasier\\AppData\\Local\\Temp\\FirefoxCache")
+options.add_argument("--headless")  # Optional: Runs in the background without opening a window
+
+# Initialize the WebDriver with the modified options
+driver = webdriver.Firefox(options=options)
 
 try:
-    # Open the website
     driver.get(url)
     
-    # Wait for the main page body to load
+    # Wait for the page to load
     WebDriverWait(driver, 15).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
-    time.sleep(2)  # Additional wait if needed
-    
+    time.sleep(2)
+
     # --- Handle potential dialog box ---
-    # (For example, if a modal pops up asking you to choose a column)
     try:
-        # Wait up to 5 seconds for a dialog to appear (update locator as needed)
         dialog = WebDriverWait(driver, 5).until(
             EC.presence_of_element_located((By.ID, "dialog-element-id"))
         )
-        # If the dialog appears, click the button that corresponds to "Name"
-        # (Update the XPath or other locator to match the actual element)
         name_button = dialog.find_element(By.XPATH, "//button[contains(text(), 'Name')]")
         name_button.click()
-        time.sleep(2)  # Wait for the dialog action to complete
+        time.sleep(2)
     except TimeoutException:
-        # No dialog appeared; continue normally
         pass
 
-    # --- Load all product plans by clicking "View More" if present ---
+    # --- Load all product plans ---
     while True:
         try:
-            # Look for a clickable "View More" button (adjust locator as needed)
             view_more_button = WebDriverWait(driver, 5).until(
                 EC.element_to_be_clickable((By.XPATH, "//button[contains(text(), 'View More')]"))
             )
             view_more_button.click()
-            time.sleep(2)  # Wait for new plans to load
+            time.sleep(2)
         except TimeoutException:
-            # No more "View More" button found; exit the loop
             break
 
     # --- Scrape the product chart details ---
-    # Locate all plan cards in the product chart
-    # (Adjust the class name or other locator based on the actual HTML structure)
     plan_cards = driver.find_elements(By.CLASS_NAME, "plan-card")
-    
+
     scraped_data = []
     for card in plan_cards:
         try:
@@ -77,23 +75,22 @@ try:
         except Exception:
             contract_summary = ""
         try:
-            # Assuming the T&C link contains text like "Terms" or "Conditions"
             terms_link = card.find_element(By.XPATH, ".//a[contains(text(), 'Terms')]").get_attribute("href")
         except Exception:
             terms_link = ""
-        
+
         scraped_data.append({
             "plan_name": plan_name,
             "price": price,
             "contract_summary": contract_summary,
             "terms_link": terms_link
         })
-    
-    # Output the scraped data as JSON so PAD can capture it
+
+    # Print scraped data in JSON format for PAD
     print(json.dumps(scraped_data))
 
 except Exception as e:
-    # If any error occurs, print it out as JSON
     print(json.dumps({"error": str(e)}))
+
 finally:
     driver.quit()
