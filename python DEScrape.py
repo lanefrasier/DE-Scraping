@@ -7,10 +7,10 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 def get_unique_zipcodes(file_path: str):
-    # Read the Excel file
+    # Read the Input Data
     df = pd.read_excel(file_path)
     
-    # Ensure the necessary columns exist
+    # Columns exist
     if "Commodity" not in df.columns or "Zip Code" not in df.columns:
         raise ValueError("Missing required columns in the Excel file.")
     
@@ -23,6 +23,7 @@ def get_unique_zipcodes(file_path: str):
 def scrape_for_zipcode(driver, zip_code):
     url = "https://shop.directenergy.com/search-for-plans?zipCode=" + zip_code
     driver.get(url)
+    driver.maximize_window()
     
     # Wait for the page to load (adjust the selector as needed)
     try:
