@@ -9,13 +9,13 @@ from selenium.webdriver.support import expected_conditions as EC
 zip_code = "20001"
 url = f"https://shop.directenergy.com/search-for-plans?zipCode={zip_code}"
 
-driver = webdriver.Chrome()  # Ensure ChromeDriver is set up correctly
+driver = webdriver.Chrome()  
 driver.maximize_window()
 driver.get(url)
 
 wait = WebDriverWait(driver, 20)
 
-# Wait for a known element to ensure the page has loaded (e.g., the DE logo)
+# Wait for DE logo to ensure the page has loaded
 try:
     logo = wait.until(EC.presence_of_element_located((By.XPATH, "//img[contains(@alt, 'DE Logo')]")))
     print("Page loaded successfully.")
@@ -24,7 +24,7 @@ except Exception as e:
     driver.quit()
     exit()
 
-# Wait for the plan container to load using the provided XPath
+# Wait for the plan container to load
 try:
     plan_container = wait.until(EC.presence_of_element_located(
         (By.XPATH, "//*[@id='electricity']/div[1]/div/div[1]/div[1]")
