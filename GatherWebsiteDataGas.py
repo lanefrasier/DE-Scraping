@@ -1,4 +1,5 @@
 import time
+import datetime
 from ZipCodes import list_ZipGas
 import pandas as pd
 from selenium import webdriver
@@ -18,6 +19,7 @@ def gather_website_data(in_ZipCode, in_Commodity):
     # Wait for DE logo to ensure the page has loaded
     try:
         de_logo = wait.until(EC.presence_of_element_located((By.XPATH, "//img[contains(@alt, 'DE Logo')]")))
+        time.sleep(3)
         print(f"Loaded successfully for Zip Code: {in_ZipCode}")
     except Exception as e:
         print(f"Loaded unsuccessfully for Zip Code: {in_ZipCode} - Error: {e}")
@@ -26,7 +28,7 @@ def gather_website_data(in_ZipCode, in_Commodity):
     
     # Provider prompt for Gas
     try:
-        provider_prompt = WebDriverWait(driver, 10).until(
+        provider_prompt = WebDriverWait(driver, 5).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "div.theme-de.dual-Commodity-modal"))
         )
         provider_radio = wait.until(EC.element_to_be_clickable((
@@ -39,25 +41,26 @@ def gather_website_data(in_ZipCode, in_Commodity):
         continue_button.click()
         time.sleep(2)
     except Exception as e:
-        print("No provider pop-up:", e)
+        print("No provider pop-up")
 
     # Change from Electric to Gas if needed
-    while True:
-        try:
-            gas_button = WebDriverWait(driver, 5).until(
-                EC.element_to_be_clickable((By.XPATH, "//*[//*[@id='electricity']/div[3]/button"))
-            )
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-            gas_button.click()
-            print("Clicked 'Continue to Natural Gas Plans' button.")
-            time.sleep(2)
-        except Exception as e:
-            print("No 'Continue to Natural Gas Plans' button found. Moving on.")
-            break
+    try:
+
+        gas_button = WebDriverWait(driver, 5).until(
+            EC.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div[1]/div/main/div/div/div[2]/div[1]/div[2]/div[1]/ul/li[2]/button"))
+        )
+        gas_button.click()
+        print("Clicked 'Natural Gas' tab.")
+        time.sleep(2)
+    except Exception as e:
+        print("No 'Natural Gas' tab found.")
 
     # Attempt to click "View More" button if it appears
     while True:
         try:
+            driver.execute_script("window.scrollTo(0, 1000);")
+            time.sleep(1)
+
             view_more_button = WebDriverWait(driver, 5).until(
                 EC.element_to_be_clickable((By.XPATH, "//*[@id='electricity']/div[1]/div/div[2]/button"))
             )
@@ -65,7 +68,7 @@ def gather_website_data(in_ZipCode, in_Commodity):
             print("Clicked 'View More' button.")
             time.sleep(2)
         except Exception as e:
-            print("No 'View More' button found. Moving on.")
+            print("No 'View More' button found.")
             break
 
     
@@ -82,9 +85,9 @@ def gather_website_data(in_ZipCode, in_Commodity):
         visible_cards = [card for card in plan_cards if card.is_displayed()]
         print(f"Visible cards: {len(visible_cards)}")
     except Exception as e:
-        print("Error finding plan cards:", e)
+        print("No plan cards found.")
         driver.quit()
-        exit()
+        return
 
     products = []
 
@@ -122,7 +125,7 @@ def gather_website_data(in_ZipCode, in_Commodity):
 
         # Append structured data as a single entry per plan
         products.append({
-            "ZipCode": in_ZipCode,
+            "ZipCode": str(in_ZipCode).zfill(5),
             "Commodity": in_Commodity,
             "PlanName": plan_name,
             "Price": price,
@@ -134,17 +137,26 @@ def gather_website_data(in_ZipCode, in_Commodity):
     # Write to Excel only once per zip code, after processing all cards
     if products:
         df_new = pd.DataFrame(products)
+            
+        # Use a constant sheet name for the entire run
+        sheet_name = "Data" + datetime.datetime.now().strftime("%d%m")
+            
         try:
-            df_existing = pd.read_excel("OutputData.xlsx", sheet_name="Data")
+            # Try to read the existing sheet with the constant name
+            df_existing = pd.read_excel("OutputData.xlsx", sheet_name=sheet_name, dtype={"ZipCode": str})
         except Exception:
             df_existing = pd.DataFrame()
+            
         df_combined = pd.concat([df_existing, df_new], ignore_index=True)
+            
+        # Write the combined DataFrame back to the same sheet (overwriting it)
         with pd.ExcelWriter("OutputData.xlsx", mode="w", engine="openpyxl") as writer:
-            df_combined.to_excel(writer, index=False, sheet_name="Data")
-        print(f"Data successfully written for Zip Code: {in_ZipCode}")
+            df_combined.to_excel(writer, index=False, sheet_name=sheet_name)
+            
+        print(f"Data successfully written in sheet {sheet_name}")
     else:
         print(f"No data extracted for Zip Code: {in_ZipCode}")
-    
+
     driver.quit()
 
 if __name__ == "__main__":
