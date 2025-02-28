@@ -1,4 +1,5 @@
 import time
+import re
 import datetime
 from ZipCodes import list_ZipElectricity 
 import pandas as pd
@@ -24,7 +25,7 @@ def gather_website_data(in_ZipCode, in_Commodity):
     except Exception as e:
         print(f"Loaded unsuccessfully for Zip Code: {in_ZipCode} - Error: {e}")
         driver.quit()
-        exit()
+        return
     
     # Provider prompt for electricity
     try:
@@ -111,9 +112,23 @@ def gather_website_data(in_ZipCode, in_Commodity):
             terms_link = "N/A"
             print("Error extracting Terms and Conditions link:", e)
 
+        # Extract bundle number
+        try:
+            class_attr = card.get_attribute("class")
+            print("Card class attribute:", class_attr)  # Debug: Check what the class attribute contains
+            match = re.search(r'product-id-(\d+)', class_attr)
+            if match:
+                bundle_num = match.group(1)
+            else:
+                bundle_num = "N/A"
+        except Exception as e:
+            bundle_num = "N/A"
+            print("Error extracting Bundle number:", e)
+
         # Append structured data as a single entry per plan
         products.append({
             "ZipCode": str(in_ZipCode).zfill(5),
+            "Bundle": bundle_num,
             "Commodity": in_Commodity,
             "PlanName": plan_name,
             "Price": price,
