@@ -1,7 +1,7 @@
 import time
 import re
 import datetime
-from ZipCodes import list_ZipGas
+from ZipCodes import list_ZipElectricity, list_ZipGas
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -27,9 +27,9 @@ def gather_website_data(in_ZipCode, in_Commodity):
         driver.quit()
         return
     
-    # Provider prompt for Gas
+    # Provider prompt for electricity or gas
     try:
-        provider_prompt = WebDriverWait(driver, 5).until(
+        provider_prompt = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, "div.theme-de.dual-Commodity-modal"))
         )
         provider_radio = wait.until(EC.element_to_be_clickable((
@@ -43,27 +43,29 @@ def gather_website_data(in_ZipCode, in_Commodity):
         time.sleep(2)
     except Exception as e:
         print("No provider pop-up")
-
-    # Change from Electric to Gas if needed
-    try:
-
-        gas_button = WebDriverWait(driver, 5).until(
-            EC.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div[1]/div/main/div/div/div[2]/div[1]/div[2]/div[1]/ul/li[2]/button"))
-        )
-        gas_button.click()
-        print("Clicked 'Natural Gas' tab.")
-        time.sleep(2)
-    except Exception as e:
-        print("No 'Natural Gas' tab found.")
-
-    # Attempt to click "View More" button if it appears
+    
+    # If commodity is Gas, click the Natural Gas tab
+    if in_Commodity.lower() == "gas":
+        try:
+            gas_button = WebDriverWait(driver, 5).until(
+                EC.element_to_be_clickable((By.XPATH, "/html/body/div[1]/div[1]/div/main/div/div/div[2]/div[1]/div[2]/div[1]/ul/li[2]/button"))
+            )
+            gas_button.click()
+            print("Clicked 'Natural Gas' tab.")
+            time.sleep(2)
+        except Exception as e:
+            print("No 'Natural Gas' tab found.")
+    
+    # Attempt to click "View More" button if it appears.
+    # Use different XPath based on commodity.
     while True:
         try:
             driver.execute_script("window.scrollTo(0, 1000);")
             time.sleep(1)
-
+            view_more_xpath = "//*[@id='electricity']/div[1]/div/div[2]/button"
+            
             view_more_button = WebDriverWait(driver, 5).until(
-                EC.element_to_be_clickable((By.XPATH, "//*[@id='electricity']/div[1]/div/div[2]/button"))
+                EC.element_to_be_clickable((By.XPATH, view_more_xpath))
             )
             view_more_button.click()
             print("Clicked 'View More' button.")
@@ -74,9 +76,12 @@ def gather_website_data(in_ZipCode, in_Commodity):
 
     # Wait for the page to load and for plan cards to be present
     try:
-        plan_container = wait.until(EC.presence_of_element_located(
-            (By.XPATH, "//*[@id='gas']/div[1]/div/div[1]/div[1]")
-        ))
+        if in_Commodity.lower() == "gas":
+            container_xpath = "//*[@id='gas']/div[1]/div/div[1]/div[1]"
+        else:
+            container_xpath = "//*[@id='electricity']/div[1]/div/div[1]/div[1]"
+        
+        plan_container = wait.until(EC.presence_of_element_located((By.XPATH, container_xpath)))
         # Within the container, individual plan cards
         plan_cards = WebDriverWait(driver, 30).until(
             EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'product-card')]"))
@@ -92,7 +97,6 @@ def gather_website_data(in_ZipCode, in_Commodity):
     products = []
 
     for card in visible_cards:
-
         # Extract Plan Name
         try:
             plan_name = card.find_element(By.XPATH, ".//div[contains(@class, 'header-1')]/h2").text.strip()
@@ -104,7 +108,10 @@ def gather_website_data(in_ZipCode, in_Commodity):
         try:
             price_value = card.find_element(By.XPATH, ".//div[contains(@class, 'header-2')]/h2").text.strip()
             price_unit = card.find_element(By.XPATH, ".//div[contains(@class, 'unit')]/p").text.strip()
-            price = f"{price_value}"
+            if in_Commodity.lower() == "gas":
+                price = f"{price_value}"
+            else:
+                price = f"{float(price_value)/100}"
         except Exception as e:
             price = "N/A"
             print("Error extracting price:", e)
@@ -123,7 +130,7 @@ def gather_website_data(in_ZipCode, in_Commodity):
             terms_link = "N/A"
             print("Error extracting Terms and Conditions link:", e)
 
-        # Extract bundle number
+        # Extract bundle number from class attribute
         try:
             class_attr = card.get_attribute("class")
             match = re.search(r'product-id-(\d+)', class_attr)
@@ -150,29 +157,33 @@ def gather_website_data(in_ZipCode, in_Commodity):
     # Write to Excel only once per zip code, after processing all cards
     if products:
         df_new = pd.DataFrame(products)
-            
-        # Use a constant sheet name for the entire run
-        sheet_name = "Data" + datetime.datetime.now().strftime("%d%m")
-            
+        
+        # Use a constant sheet name for the entire run, e.g. "Data1702" for February 17
+        sheet_name_const = "Data" + datetime.datetime.now().strftime("%d%m")
+        
         try:
             # Try to read the existing sheet with the constant name
-            df_existing = pd.read_excel("OutputData.xlsx", sheet_name=sheet_name, dtype={"ZipCode": str})
+            df_existing = pd.read_excel("OutputData.xlsx", sheet_name=sheet_name_const, dtype={"ZipCode": str})
         except Exception:
             df_existing = pd.DataFrame()
-            
+        
         df_combined = pd.concat([df_existing, df_new], ignore_index=True)
-            
+        
         # Write the combined DataFrame back to the same sheet (overwriting it)
         with pd.ExcelWriter("OutputData.xlsx", mode="w", engine="openpyxl") as writer:
-            df_combined.to_excel(writer, index=False, sheet_name=sheet_name)
-            
-        print(f"Data successfully written in sheet {sheet_name}")
+            df_combined.to_excel(writer, index=False, sheet_name=sheet_name_const)
+        
+        print(f"Data successfully written in sheet {sheet_name_const}")
     else:
         print(f"No data extracted for Zip Code: {in_ZipCode}")
 
     driver.quit()
 
 if __name__ == "__main__":
+    # Process Electricity zip codes
+    for zip_code in list_ZipElectricity:
+        gather_website_data(zip_code, "Electric")
+    
+    # Process Gas zip codes
     for zip_code in list_ZipGas:
         gather_website_data(zip_code, "Gas")
-    

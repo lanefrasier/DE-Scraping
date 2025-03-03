@@ -4,23 +4,22 @@ import pandas as pd
 df_input = pd.read_excel("InputData.xlsx")
 df_output = pd.read_excel("OutputData.xlsx")
 
-# Convert relevant columns to string for accurate sorting and filtering
+# Convert relevant columns to strings
 df_input["Zip Code"] = df_input["Zip Code"].astype(str)
 df_output["ZipCode"] = df_output["ZipCode"].astype(str)
-df_input["Commodity"] = df_input["Commodity"].astype(str)
-df_output["Commodity"] = df_output["Commodity"].astype(str)
 
-# Sort both DataFrames by Zip Code and Commodity
-df_input_sorted = df_input.sort_values(by=["Zip Code", "Commodity"])
-df_output_sorted = df_output.sort_values(by=["ZipCode", "Commodity"])
+df_input["Bundle Id"] = df_input["Bundle Id"].astype(str)
+df_output["Bundle"] = df_output["Bundle"].astype(str)
+
+# Sort both DataFrames 
+df_input_sorted = df_input.sort_values(by=["Zip Code", "Bundle Id"])
+df_output_sorted = df_output.sort_values(by=["ZipCode", "Bundle"])
 
 # Merge on Zip Code and Commodity.
-# Note: Only overlapping column is "Commodity". 
-# Columns like "Zip Code" (input) and "ZipCode" (output) and "TandC" (input) are unique.
 df_merged = df_input_sorted.merge(
     df_output_sorted, 
-    left_on=["Zip Code", "Commodity"], 
-    right_on=["ZipCode", "Commodity"], 
+    left_on=["Zip Code", "Bundle Id"], 
+    right_on=["ZipCode", "Bundle"], 
     how="left", 
     suffixes=("_input", "_output")
 )
