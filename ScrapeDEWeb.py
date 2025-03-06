@@ -104,10 +104,17 @@ def gather_website_data(in_ZipCode, in_Commodity):
             plan_name = "N/A"
             print("Error extracting plan name:", e)
 
+        # Extract Plan Term
+        try:
+            plan_term = card.find_element(By.XPATH, ".//div[contains(@class, 'badge-block')]/span[2]").text.strip().rstrip(" Months")
+        except Exception as e:
+            plan_term = "N/A"
+            print("Error extracting plan term:", e)
+
         # Extract Price (value and unit)
         try:
             price_value = card.find_element(By.XPATH, ".//div[contains(@class, 'header-2')]/h2").text.strip()
-            price_unit = card.find_element(By.XPATH, ".//div[contains(@class, 'unit')]/p").text.strip()
+            price_unit = card.find_element(By.XPATH, ".//div[contains(@class, 'unit')]/p").text.strip().lstrip('/')
             if in_Commodity.lower() == "gas":
                 price = f"{price_value}"
             else:
@@ -146,10 +153,11 @@ def gather_website_data(in_ZipCode, in_Commodity):
         products.append({
             "ZipCode": str(in_ZipCode).zfill(5),
             "Bundle": bundle_num,
+            "Plan Term": plan_term,
             "Commodity": in_Commodity,
             "PlanName": plan_name,
             "Price": price,
-            "UOM": price_unit,
+            "UOM": price_unit.upper(),
             "ContractSummary": contract_summary,
             "TermsAndConditions": terms_link
         })
@@ -158,8 +166,8 @@ def gather_website_data(in_ZipCode, in_Commodity):
     if products:
         df_new = pd.DataFrame(products)
         
-        # Use a constant sheet name for the entire run, e.g. "Data1702" for February 17
-        sheet_name_const = "Data" + datetime.datetime.now().strftime("%d%m")
+        # Use a constant sheet name for the entire run, e.g. "Data0217" for February 17
+        sheet_name_const = "Data" + datetime.datetime.now().strftime("%m%d")
         
         try:
             # Try to read the existing sheet with the constant name
