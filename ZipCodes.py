@@ -2,7 +2,7 @@ import pandas as pd
 
 # Define file paths and sheet names
 input_file = "InputData.xlsx"
-zip_file = "USN SS Logins.xlsx"
+zip_file = "C:/Users/LFrasier/NRG Energy, Inc/Digital Operations-NRG365 - General/Process Documents/USN State Rate Board Documents/USN SS Logins.xlsx"
 sheet_input = "COM_QC"
 sheet_zip = "ZipCodes by State"
 
