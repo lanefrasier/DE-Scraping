@@ -1,8 +1,24 @@
 import pandas as pd
+import glob
+import os
+from datetime import datetime
 
 # Load the Excel files
 df_input = pd.read_excel("InputData_ZipCodes.xlsx")
-df_output = pd.read_excel("OutputData.xlsx")
+
+# Find all files matching the pattern "Output_*.xlsx"
+files = glob.glob("Output_*.xlsx")
+
+# If there are any matching files, find the most recent one
+if files:
+    latest_file = max(files, key=os.path.getctime)  # Get the most recently created file
+    print(f"Reading the latest file: {latest_file}")
+
+    # Load the most recent file into a DataFrame
+    df_output = pd.read_excel(latest_file)
+else:
+    print("No matching files found.")
+    df_output = pd.DataFrame()  # Ensure df_output exists
 
 # Convert relevant columns to strings
 df_input["Zip Code"] = df_input["Zip Code"].astype(str)
@@ -29,31 +45,35 @@ df_merged = df_input_sorted.merge(
 df_merged["rateamt"] = pd.to_numeric(df_merged["rateamt"], errors="coerce")
 df_merged["Price"] = pd.to_numeric(df_merged["Price"], errors="coerce")
 
-# Initialize Mismatch column with empty values
-df_merged["Mismatch"] = ""
+# Initialize Match column with empty values
+df_merged["Match"] = ""
 
 # Identify mismatches and append the reason
 if "Term/End Date" in df_merged.columns and "Plan Term" in df_merged.columns:
-    df_merged.loc[df_merged["Term/End Date"] != df_merged["Plan Term"], "Mismatch"] += "Plan Term, "
-
-df_merged.loc[df_merged["Price"] != df_merged["rateamt"], "Mismatch"] += "Price, "
-df_merged.loc[df_merged["UOM_input"] != df_merged["UOM_output"], "Mismatch"] += "UOM, "
-df_merged.loc[df_merged["ZipCode"] == "00000", "Mismatch"] += "Zipcode, "
-
-# Identify missing rows
-df_merged.loc[df_merged["_merge"] == "left_only", "Mismatch"] += "Missing in output, "
-df_merged.loc[df_merged["_merge"] == "right_only", "Mismatch"] += "Missing in input, "
+    df_merged.loc[df_merged["Term/End Date"] != df_merged["Plan Term"], "Match"] += "Plan Term, "
+df_merged.loc[df_merged["Price"] != df_merged["rateamt"], "Match"] += "Price, "
+df_merged.loc[df_merged["UOM_input"] != df_merged["UOM_output"], "Match"] += "UOM, "
+df_merged.loc[df_merged["ZipCode"] == "00000", "Match"] += "Zipcode, "
+df_merged.loc[df_merged["_merge"] == "left_only", "Match"] += "Missing in output, "
+df_merged.loc[df_merged["_merge"] == "right_only", "Match"] += "Missing in input, "
 
 # Remove trailing commas and spaces
-df_merged["Mismatch"] = df_merged["Mismatch"].str.rstrip(", ")
+df_merged["Match"] = df_merged["Match"].str.rstrip(", ")
 
-# Filter only rows with mismatches
-df_qc = df_merged[df_merged["Mismatch"] != ""]
+# Mark successful matches
+df_merged.loc[df_merged["Match"] == "", "Match"] = "Successful"
 
-df_qc = df_qc.drop(columns=["_merge"], errors="ignore")
-columns_order = ["Mismatch"] + [col for col in df_qc.columns if col != "Mismatch"]
-df_qc = df_qc[columns_order]
+# Remove _merge column
+df_merged = df_merged.drop(columns=["_merge"], errors="ignore")
 
-# Save the mismatched rows to a new Excel file "QC.xlsx"
-df_qc.to_excel("QC.xlsx", index=False)
-print("QC file generated successfully!")
+# Move Match column to the first position
+columns_order = ["Match"] + [col for col in df_merged.columns if col != "Match"]
+df_merged = df_merged[columns_order]
+
+# Generate filename with today's date
+current_date = datetime.now().strftime("%m%d%Y")  # Format: MMDDYYYY
+qc_filename = f"QC_{current_date}.xlsx"
+
+# Save the entire dataset to the new file
+df_merged.to_excel(qc_filename, index=False)
+print(f"QC file generated successfully: {qc_filename}")

@@ -7,6 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import os
 
 def gather_website_data(in_ZipCode, in_Commodity):
     url = f"https://shop.directenergy.com/search-for-plans?zipCode={in_ZipCode}"
@@ -19,6 +20,7 @@ def gather_website_data(in_ZipCode, in_Commodity):
     
     # Wait for DE logo to ensure the page has loaded
     try:
+
         de_logo = wait.until(EC.presence_of_element_located((By.XPATH, "//img[contains(@alt, 'DE Logo')]")))
         time.sleep(3)
         print(f"Loaded successfully for Zip Code: {in_ZipCode}")
@@ -27,23 +29,40 @@ def gather_website_data(in_ZipCode, in_Commodity):
         driver.quit()
         return
     
-    # Provider prompt for electricity or gas
-    try:
-        provider_prompt = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.CSS_SELECTOR, "div.theme-de.dual-Commodity-modal"))
-        )
-        provider_radio = wait.until(EC.element_to_be_clickable((
-            By.XPATH, "/html/body/div[1]/div[1]/div/main/div/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div[3]/div/div[1]/div/input"
-        )))
-        driver.execute_script("arguments[0].click();", provider_radio)
-        continue_button = wait.until(EC.element_to_be_clickable((
-            By.XPATH, "/html/body/div[1]/div[1]/div/main/div/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div[4]/button"
-        )))
-        continue_button.click()
-        time.sleep(2)
-    except Exception as e:
-        print("No provider pop-up")
-    
+    # Pop-up for Electric
+    if in_Commodity.lower() == "electric":
+        try:
+            provider_prompt = WebDriverWait(driver, 5).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, "div.theme-de.dual-Commodity-modal"))
+            )
+            # Read the InputData_ZipCodes file to get the utility name associated with the current zip code
+            df_input_zip = pd.read_excel("InputData_ZipCodes.xlsx", dtype={"Zip Code": str, "Name": str})
+            # Look up the utility name
+            in_Utility = df_input_zip.loc[df_input_zip["Zip Code"] == in_ZipCode, "Name"].iloc[0]
+            print(f"For Zip Code {in_ZipCode}, utility found is: {in_Utility}")
+
+            # Construct the XPath using the utility name
+            xpath_provider_radio = f"//*[@id='electricityUtlity-{in_Utility}']"
+            provider_radio = wait.until(EC.element_to_be_clickable((By.XPATH, xpath_provider_radio)))
+            driver.execute_script("arguments[0].click();", provider_radio)
+
+            # Check for additional radio button; if present, click it.
+            try:
+                additional_radio = wait.until(EC.element_to_be_clickable((By.XPATH, "//*[@id='gasUtility-Not Interested']")))
+                additional_radio.click()
+                print("Clicked additional 'Not Interested' radio button.")
+            except Exception as inner_e:
+                print("No additional radio button present, continuing.")
+
+            # Click the "Continue" button
+            continue_button = wait.until(EC.element_to_be_clickable((
+                By.XPATH, "/html/body/div[1]/div[1]/div/main/div/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div[4]/button"
+            )))
+            continue_button.click()
+            time.sleep(1)
+        except Exception as e:
+            print("No provider pop-up")
+        
     # If commodity is Gas, click the Natural Gas tab
     if in_Commodity.lower() == "gas":
         try:
@@ -52,7 +71,7 @@ def gather_website_data(in_ZipCode, in_Commodity):
             )
             gas_button.click()
             print("Clicked 'Natural Gas' tab.")
-            time.sleep(2)
+            time.sleep(1)
         except Exception as e:
             print("No 'Natural Gas' tab found.")
     
@@ -69,7 +88,7 @@ def gather_website_data(in_ZipCode, in_Commodity):
             )
             view_more_button.click()
             print("Clicked 'View More' button.")
-            time.sleep(2)
+            time.sleep(1)
         except Exception as e:
             print("No 'View More' button found.")
             break
@@ -162,26 +181,26 @@ def gather_website_data(in_ZipCode, in_Commodity):
             "TermsAndConditions": terms_link
         })
 
-    # Write to Excel only once per zip code, after processing all cards
+ # Write to Excel only once per zip code, after processing all cards
     if products:
         df_new = pd.DataFrame(products)
-        
-        # Use a constant sheet name for the entire run, e.g. "Data0217" for February 17
-        sheet_name_const = "Data" + datetime.datetime.now().strftime("%m%d")
-        
-        try:
-            # Try to read the existing sheet with the constant name
-            df_existing = pd.read_excel("OutputData.xlsx", sheet_name=sheet_name_const, dtype={"ZipCode": str})
-        except Exception:
-            df_existing = pd.DataFrame()
-        
-        df_combined = pd.concat([df_existing, df_new], ignore_index=True)
-        
-        # Write the combined DataFrame back to the same sheet (overwriting it)
-        with pd.ExcelWriter("OutputData.xlsx", mode="w", engine="openpyxl") as writer:
-            df_combined.to_excel(writer, index=False, sheet_name=sheet_name_const)
-        
-        print(f"Data successfully written in sheet {sheet_name_const}")
+
+        # Define the output file name
+        file_name = "Output_" + datetime.datetime.now().strftime("%d%m%Y") + ".xlsx"
+
+        # Check if the file already exists
+        if os.path.exists(file_name):
+            # Read existing data
+            existing_df = pd.read_excel(file_name, dtype={"ZipCode":str}, sheet_name="Data", engine="openpyxl")
+            # Append new data
+            df_new = pd.concat([existing_df, df_new], ignore_index=True,)
+
+        # Write to Excel, preserving previous data
+        with pd.ExcelWriter(file_name, mode="w", engine="openpyxl") as writer:
+            df_new.to_excel(writer, index=False, sheet_name="Data")
+
+        print(f"Data successfully written to file {file_name}")
+
     else:
         print(f"No data extracted for Zip Code: {in_ZipCode}")
 
