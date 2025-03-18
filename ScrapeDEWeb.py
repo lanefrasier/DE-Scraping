@@ -4,12 +4,24 @@ import os
 import datetime
 import logging
 import ctypes
-from ZipCodes import list_ZipElectricity, list_ZipGas
+from ZipCodes import ZipsDict
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+
+def prevent_sleep():
+    # Prevents system sleep.
+    ES_CONTINUOUS = 0x80000000
+    ES_SYSTEM_REQUIRED = 0x00000001
+    ES_DISPLAY_REQUIRED = 0x00000002
+    ctypes.windll.kernel32.SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED)
+
+def restore_sleep():
+    # Resets the execution state so the system can sleep again.
+    ES_CONTINUOUS = 0x80000000
+    ctypes.windll.kernel32.SetThreadExecutionState(ES_CONTINUOUS)
 
 # Configure logging to output to both the console and a file
 logging.basicConfig(
@@ -18,28 +30,16 @@ logging.basicConfig(
     handlers=[
         logging.FileHandler("WebScrapeOutput" + datetime.datetime.now().strftime("%d%m%Y") + ".log", mode="w"),
         logging.StreamHandler()
-    ]
-)
+    ])
 
-def prevent_sleep():
-    # Prevents system sleep. ES_CONTINUOUS ensures the setting remains in effect.
-    ES_CONTINUOUS = 0x80000000
-    ES_SYSTEM_REQUIRED = 0x00000001
-    ctypes.windll.kernel32.SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED)
-
-def restore_sleep():
-    # Resets the execution state so the system can sleep again.
-    ES_CONTINUOUS = 0x80000000
-    ctypes.windll.kernel32.SetThreadExecutionState(ES_CONTINUOUS)
-
-def gather_website_data(driver, in_ZipCode, in_Commodity):
+def gather_website_data(driver, in_ZipCode, in_Utility, in_Commodity):
     url = f"https://shop.directenergy.com/search-for-plans?zipCode={in_ZipCode}"
     driver.get(url)
     wait = WebDriverWait(driver, 30)
 
     # Wait for DE logo to ensure the page has loaded
     try:
-        de_logo = wait.until(EC.presence_of_element_located((By.XPATH, "//img[contains(@alt, 'DE Logo')]")))
+        wait.until(EC.presence_of_element_located((By.XPATH, "//img[contains(@alt, 'DE Logo')]")))
         time.sleep(1)
         logging.info(f"Loaded successfully for Zip Code: {in_ZipCode}")
     except Exception as e:
@@ -47,23 +47,21 @@ def gather_website_data(driver, in_ZipCode, in_Commodity):
         return
 
     # Pop-up for Electric
-    if in_Commodity.lower() == "electric":
+    if in_Commodity == "electric":
         try:
             provider_container = WebDriverWait(driver, 5).until(
                 EC.presence_of_element_located((By.XPATH, "//h4[text()='Your Service ZIP code']"))
             )
         except Exception:
-            logging.info("Provider pop-up container not found.")
+            logging.info("Provider pop-up container not found for electric.")
             provider_container = None
 
         if provider_container:
             try:
-                df_input_zip = pd.read_excel("InputData_ZipCodes.xlsx", dtype={"Zip Code": str, "Name": str})
-                in_Utility = df_input_zip.loc[df_input_zip["Zip Code"] == in_ZipCode, "Name"].iloc[0].strip()
                 logging.info(f"For Zip Code {in_ZipCode}, utility found is: {in_Utility}")
-                time.sleep(3)
+                time.sleep(1)
 
-                # Find the label matching the utility name
+                # Find all radio buttons in the container whose IDs start with 'electricUtlity-'
                 labels = provider_container.find_elements(By.XPATH, "//label[contains(text(), '{}')]".format(in_Utility))
                 provider_radio = None
 
@@ -79,27 +77,28 @@ def gather_website_data(driver, in_ZipCode, in_Commodity):
                     logging.info(f"Clicked provider radio button for utility: {in_Utility}")
                 else:
                     logging.error(f"Could not find provider radio button for utility: {in_Utility}")
-
+                
+                # Click the "Not Interested" radio button from the gas group if present
                 try:
-                    additional_radio = WebDriverWait(driver, 5).until(
+                    not_interested = WebDriverWait(driver, 5).until(
                         EC.element_to_be_clickable((By.XPATH, "//*[@id='gasUtility-Not Interested']"))
                     )
-                    additional_radio.click()
-                    logging.info("Clicked additional 'Not Interested' radio button.")
+                    not_interested.click()
+                    logging.info("Clicked 'Not Interested' for gas.")
                     continue_button_xpath = "/html/body/div[1]/div[1]/div/main/div/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div[6]/button"
 
                 except Exception:
-                    logging.info("No additional radio button present, continuing.")
+                    logging.info("No 'Not Interested' button present, continuing.")
                     continue_button_xpath = "/html/body/div[1]/div[1]/div/main/div/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div[4]/button"
-                continue_button = WebDriverWait(driver, 10).until(
+                continue_button = WebDriverWait(driver, 5).until(
                     EC.element_to_be_clickable((By.XPATH, continue_button_xpath))
                 )
                 continue_button.click()
-                time.sleep(3)
+                time.sleep(1)
             except Exception as e:
-                logging.error("Error during provider pop-up handling:", e)
+                logging.error("Error during provider pop-up handling for electric:", e)
         else:
-            logging.info("No provider pop-up present, skipping provider selection.")
+            logging.info("No provider pop-up present for electric.")
 
     # Pop-up for Gas
     if in_Commodity.lower() == "gas":
@@ -113,18 +112,8 @@ def gather_website_data(driver, in_ZipCode, in_Commodity):
 
         if provider_container:
             try:
-                # First, click the "Not Interested" radio button from the electricity group
-                not_interested = WebDriverWait(driver, 5).until(
-                    EC.element_to_be_clickable((By.XPATH, "//*[@id='electricityUtlity-Not Interested']"))
-                )
-                not_interested.click()
-                logging.info("Clicked 'Not Interested' for electricity.")
-                
-                # Read the utility name for gas from the file
-                df_input_zip = pd.read_excel("InputData_ZipCodes.xlsx", dtype={"Zip Code": str, "Name": str})
-                in_Utility = df_input_zip.loc[df_input_zip["Zip Code"] == in_ZipCode, "Name"].iloc[0].strip()
                 logging.info(f"For Zip Code {in_ZipCode}, gas utility found is: {in_Utility}")
-                time.sleep(3)
+                time.sleep(1)
 
                 # Find all radio buttons in the container whose IDs start with 'gasUtility-'
                 labels = provider_container.find_elements(By.XPATH, "//label[contains(text(), '{}')]".format(in_Utility))
@@ -136,24 +125,33 @@ def gather_website_data(driver, in_ZipCode, in_Commodity):
                     if in_Utility.lower() == input_value:
                         provider_radio = input_radio
                         break
-
                 if provider_radio:
                     driver.execute_script("arguments[0].click();", provider_radio)
                     logging.info(f"Clicked provider radio button for gas utility: {in_Utility}")
-                    continue_button_xpath = "/html/body/div[1]/div[1]/div/main/div/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div[6]/button"
                 else:
                     logging.error(f"Could not find provider radio button for gas utility: {in_Utility}")
-                    continue_button_xpath = "/html/body/div[1]/div[1]/div/main/div/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div[4]/button"
 
-                continue_button = WebDriverWait(driver, 10).until(
+                # Click the "Not Interested" radio button from the electricity group if present
+                try:
+                    not_interested = WebDriverWait(driver, 5).until(
+                        EC.element_to_be_clickable((By.XPATH, "//*[@id='electricityUtlity-Not Interested']"))
+                    )
+                    not_interested.click()
+                    logging.info("Clicked 'Not Interested' for electricity.")
+                    continue_button_xpath = "/html/body/div[1]/div[1]/div/main/div/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div[6]/button"
+                
+                except Exception:
+                    logging.info("No 'Not Interested' button present, continuing.")
+                    continue_button_xpath = "/html/body/div[1]/div[1]/div/main/div/div/div[2]/div[1]/div[2]/div/div/div/div/div[2]/div[4]/button"
+                continue_button = WebDriverWait(driver, 5).until(
                     EC.element_to_be_clickable((By.XPATH, continue_button_xpath))
                 )
                 continue_button.click()
-                time.sleep(3)
+                time.sleep(1)
             except Exception as e:
                 logging.error("Error during provider pop-up handling for gas:", e)
         else:
-            logging.info("No provider pop-up present for gas, skipping provider selection.")
+            logging.info("No provider pop-up present for gas.")
 
     # If commodity is Gas, click the Natural Gas tab
     if in_Commodity.lower() == "gas":
@@ -189,7 +187,7 @@ def gather_website_data(driver, in_ZipCode, in_Commodity):
         container_xpath = "//*[@id='gas']/div[1]/div/div[1]/div[1]" if in_Commodity.lower() == "gas" else "//*[@id='electricity']/div[1]/div/div[1]/div[1]"
         
         wait.until(EC.presence_of_element_located((By.XPATH, container_xpath)))
-        plan_cards = WebDriverWait(driver, 30).until(
+        plan_cards = WebDriverWait(driver, 3).until(
             EC.presence_of_all_elements_located((By.XPATH, ".//div[contains(@class, 'product-card')]"))
         )
         visible_cards = [card for card in plan_cards if card.is_displayed()]
@@ -248,13 +246,13 @@ def gather_website_data(driver, in_ZipCode, in_Commodity):
         products.append({
             "ZipCode": str(in_ZipCode).zfill(5),
             "Bundle": bundle_num,
+            "Utility": in_Utility,
             "Plan Term": plan_term,
             "Commodity": in_Commodity,
             "PlanName": plan_name,
             "Price": price,
             "UOM": price_unit.upper(),
             "ContractSummary": contract_summary,
-
             "TermsAndConditions": terms_link
         })
 
@@ -279,11 +277,12 @@ if __name__ == "__main__":
     driver = webdriver.Chrome()
     driver.maximize_window()
 
-    for zip_code in list_ZipElectricity:
-        gather_website_data(driver, zip_code, "Electric")
-
-    for zip_code in list_ZipGas:
-        gather_website_data(driver, zip_code, "Gas")
+    # Iterate over each unique entry in ZipsDict
+    for key, entry in ZipsDict.items():
+        zip_code = entry["ZipCode"]
+        utility = entry["Utility"]
+        commodity = entry["Commodity"]
+        gather_website_data(driver, zip_code, utility, commodity)
 
     driver.quit()
     restore_sleep()

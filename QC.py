@@ -18,24 +18,26 @@ if files:
     df_output = pd.read_excel(latest_file)
 else:
     print("No matching files found.")
-    df_output = pd.DataFrame()  # Ensure df_output exists
+    df_output = pd.DataFrame() 
 
 # Convert relevant columns to strings
 df_input["Zip Code"] = df_input["Zip Code"].astype(str)
-df_output["ZipCode"] = df_output["ZipCode"].astype(str)
-
 df_input["Bundle Id"] = df_input["Bundle Id"].astype(str)
+df_input["Name"] = df_input["Name"].astype(str)
+
+df_output["ZipCode"] = df_output["ZipCode"].astype(str)
 df_output["Bundle"] = df_output["Bundle"].astype(str)
+df_output["Utility"] = df_output["Utility"].astype(str)
 
 # Sort both DataFrames 
-df_input_sorted = df_input.sort_values(by=["Zip Code", "Bundle Id"])
-df_output_sorted = df_output.sort_values(by=["ZipCode", "Bundle"])
+df_input_sorted = df_input.sort_values(by=["Zip Code", "Bundle Id", "Name"])
+df_output_sorted = df_output.sort_values(by=["ZipCode", "Bundle", "Utility"])
 
 # Merge on Zip Code and Bundle Id.
 df_merged = df_input_sorted.merge(
     df_output_sorted, 
-    left_on=["Zip Code", "Bundle Id"], 
-    right_on=["ZipCode", "Bundle"], 
+    left_on=["Zip Code", "Bundle Id", "Name"], 
+    right_on=["ZipCode", "Bundle", "Utility"], 
     how="outer", 
     suffixes=("_input", "_output"),
     indicator=True

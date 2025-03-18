@@ -24,45 +24,41 @@ df_merged["Zip Code"] = df_merged["Zip Code"].replace("nan", "00000")
 df_merged["Zip Code"] = df_merged["Zip Code"].str.zfill(5)
 
 # Mismatches of Name vs Popup
-df_merged = df_merged.applymap(lambda x: x.replace("&", "and") if isinstance(x, str) else x)
-df_merged = df_merged.applymap(lambda x: x.replace("PECO", "Peco Electricity") if isinstance(x, str) else x)
-df_merged = df_merged.applymap(lambda x: x.replace("Columbia Gas of PA", "Columbia Gas of Pennsylvania") if isinstance(x, str) else x)
-df_merged = df_merged.applymap(lambda x: x.replace("Nicor", "Nicor Gas") if isinstance(x, str) else x)
-df_merged = df_merged.applymap(lambda x: x.replace("Northshore", "North Shore") if isinstance(x, str) else x)
+df_merged = df_merged.map(lambda x: x.replace("&", "and") if isinstance(x, str) else x)
+df_merged = df_merged.map(lambda x: x.replace("PECO", "Peco Electricity") if isinstance(x, str) else x)
+df_merged = df_merged.map(lambda x: x.replace("Columbia Gas of PA", "Columbia Gas of Pennsylvania") if isinstance(x, str) else x)
+df_merged = df_merged.map(lambda x: x.replace("Nicor", "Nicor Gas") if isinstance(x, str) else x)
+df_merged = df_merged.map(lambda x: x.replace("Northshore", "North Shore") if isinstance(x, str) else x)
+df_merged = df_merged.map(lambda x: x.replace("Michigan Consumers", "Consumers Energy") if isinstance(x, str) else x)
+df_merged = df_merged.map(lambda x: x.replace("Michigan Consolidated", "DTE Gas") if isinstance(x, str) else x)
 
 # Save the merged DataFrame as a new file "InputData_ZipCodes.xlsx" with the same sheet name as the original
 output_file = "InputData_ZipCodes.xlsx"
 df_merged.to_excel(output_file, sheet_name=sheet_input, index=False)
 
-# Initialize empty lists for Gas and Electricity zip codes
-list_ZipGas = []
-list_ZipElectricity = []
+# Build a dictionary with unique entries; keys are (ZipCode, LDC, Commodity) tuples.
+ZipsDict = {}
 
 # Iterate through each row in the merged DataFrame
 for index, row in df_merged.iterrows():
-    commodity = str(row["Commodity"])
+    commodity = str(row["Commodity"]).lower()
     zip_code = row["Zip Code"]
+    utility = row["Name"]
     
     # Skip rows where zip code is missing (represented by "00000")
     if zip_code == "00000":
         print(f"Skipping row {index}: Missing Zip Code for {row['LDC']}")
         continue
-    
-    # Check if Commodity contains "Electric"
-    if "Electric" in commodity:
-        if zip_code in list_ZipElectricity:
-            continue
-        else:
-            list_ZipElectricity.append(zip_code)
-    # Check if Commodity contains "Gas"
-    elif "Gas" in commodity:
-        if zip_code in list_ZipGas:
-            continue
-        else:
-            list_ZipGas.append(zip_code)
-    else:
-        raise Exception(f"New commodity detected: {commodity}")
 
-# Resulting lists
-print("Electricity Zip Codes:", list_ZipElectricity)
-print("Gas Zip Codes:", list_ZipGas)
+    key = (zip_code, utility, commodity)
+    if key not in ZipsDict:
+        ZipsDict[key] = {
+            "ZipCode": zip_code,
+            "Utility": utility,
+            "Commodity": commodity
+        }
+    
+# Resulting dictionary
+print("Unique Zipcodes:")
+for key, entry in ZipsDict.items():
+    print(entry)
