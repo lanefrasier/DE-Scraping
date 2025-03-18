@@ -23,6 +23,13 @@ df_merged["Zip Code"] = df_merged["Zip Code"].astype(str)
 df_merged["Zip Code"] = df_merged["Zip Code"].replace("nan", "00000")
 df_merged["Zip Code"] = df_merged["Zip Code"].str.zfill(5)
 
+# Mismatches of Name vs Popup
+df_merged = df_merged.applymap(lambda x: x.replace("&", "and") if isinstance(x, str) else x)
+df_merged = df_merged.applymap(lambda x: x.replace("PECO", "Peco Electricity") if isinstance(x, str) else x)
+df_merged = df_merged.applymap(lambda x: x.replace("Columbia Gas of PA", "Columbia Gas of Pennsylvania") if isinstance(x, str) else x)
+df_merged = df_merged.applymap(lambda x: x.replace("Nicor", "Nicor Gas") if isinstance(x, str) else x)
+df_merged = df_merged.applymap(lambda x: x.replace("Northshore", "North Shore") if isinstance(x, str) else x)
+
 # Save the merged DataFrame as a new file "InputData_ZipCodes.xlsx" with the same sheet name as the original
 output_file = "InputData_ZipCodes.xlsx"
 df_merged.to_excel(output_file, sheet_name=sheet_input, index=False)
@@ -38,24 +45,24 @@ for index, row in df_merged.iterrows():
     
     # Skip rows where zip code is missing (represented by "00000")
     if zip_code == "00000":
-        print(f"Skipping row {index}: Missing Zip Code")
+        print(f"Skipping row {index}: Missing Zip Code for {row['LDC']}")
         continue
     
     # Check if Commodity contains "Electric"
     if "Electric" in commodity:
         if zip_code in list_ZipElectricity:
-            print(f"Zip Code {zip_code} is already in Electric List")
+            continue
         else:
             list_ZipElectricity.append(zip_code)
     # Check if Commodity contains "Gas"
     elif "Gas" in commodity:
         if zip_code in list_ZipGas:
-            print(f"Zip Code {zip_code} is already in Gas List")
+            continue
         else:
             list_ZipGas.append(zip_code)
     else:
         raise Exception(f"New commodity detected: {commodity}")
 
-# Print the resulting lists
+# Resulting lists
 print("Electricity Zip Codes:", list_ZipElectricity)
 print("Gas Zip Codes:", list_ZipGas)
