@@ -5,6 +5,7 @@ import datetime
 import logging
 import ctypes
 from ZipCodes import ZipsDict
+import QC
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -258,7 +259,7 @@ def gather_website_data(driver, in_ZipCode, in_Utility, in_Commodity):
 
     if products:
         df_new = pd.DataFrame(products)
-        file_name = "Output_" + datetime.datetime.now().strftime("%d%m%Y") + ".xlsx"
+        file_name = "Output_" + datetime.datetime.now().strftime("%m%d%Y") + ".xlsx"
 
         if os.path.exists(file_name):
             existing_df = pd.read_excel(file_name, dtype={"ZipCode": str}, sheet_name="Data", engine="openpyxl")
@@ -286,3 +287,8 @@ if __name__ == "__main__":
 
     driver.quit()
     restore_sleep()
+    logging.info("Web scrape is complete.")
+
+    # Run QC script
+    QC.run_qc()
+    logging.info("QC file completed.")

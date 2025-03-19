@@ -1,0 +1,368 @@
+2025-03-19 08:53:01,516 [INFO] Loaded successfully for Zip Code: 19940
+2025-03-19 08:53:06,724 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:53:06,724 [INFO] No provider pop-up present for electric.
+2025-03-19 08:53:08,784 [INFO] No 'View More' button found.
+2025-03-19 08:53:08,938 [INFO] Visible cards: 5
+2025-03-19 08:53:09,324 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:53:15,508 [INFO] Loaded successfully for Zip Code: 61401
+2025-03-19 08:53:15,538 [INFO] For Zip Code 61401, utility found is: Ameren
+2025-03-19 08:53:16,640 [INFO] Clicked provider radio button for utility: Ameren
+2025-03-19 08:53:21,856 [INFO] No 'Not Interested' button present, continuing.
+2025-03-19 08:53:25,142 [INFO] No 'View More' button found.
+2025-03-19 08:53:27,356 [INFO] Visible cards: 5
+2025-03-19 08:53:27,792 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:53:34,335 [INFO] Loaded successfully for Zip Code: 61525
+2025-03-19 08:53:39,597 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:53:39,598 [INFO] No provider pop-up present for electric.
+2025-03-19 08:53:41,652 [INFO] No 'View More' button found.
+2025-03-19 08:53:41,732 [INFO] Visible cards: 5
+2025-03-19 08:53:42,200 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:53:48,176 [INFO] Loaded successfully for Zip Code: 62236
+2025-03-19 08:53:48,198 [INFO] For Zip Code 62236, utility found is: Ameren
+2025-03-19 08:53:49,331 [INFO] Clicked provider radio button for utility: Ameren
+2025-03-19 08:53:54,559 [INFO] No 'Not Interested' button present, continuing.
+2025-03-19 08:53:58,087 [INFO] No 'View More' button found.
+2025-03-19 08:53:58,217 [INFO] Visible cards: 5
+2025-03-19 08:53:58,619 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:54:08,241 [INFO] Loaded successfully for Zip Code: 62555
+2025-03-19 08:54:13,452 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:54:13,452 [INFO] No provider pop-up present for electric.
+2025-03-19 08:54:15,522 [INFO] No 'View More' button found.
+2025-03-19 08:54:15,623 [INFO] Visible cards: 5
+2025-03-19 08:54:16,139 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:54:22,338 [INFO] Loaded successfully for Zip Code: 60668
+2025-03-19 08:54:27,851 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:54:27,852 [INFO] No provider pop-up present for electric.
+2025-03-19 08:54:29,926 [INFO] No 'View More' button found.
+2025-03-19 08:54:30,045 [INFO] Visible cards: 5
+2025-03-19 08:54:30,537 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:54:37,114 [INFO] Loaded successfully for Zip Code: 20872
+2025-03-19 08:54:42,596 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:54:42,597 [INFO] No provider pop-up present for electric.
+2025-03-19 08:54:44,651 [INFO] No 'View More' button found.
+2025-03-19 08:54:47,749 [ERROR] No plan cards found.
+2025-03-19 08:54:54,168 [INFO] Loaded successfully for Zip Code: 20135
+2025-03-19 08:54:59,226 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:54:59,227 [INFO] No provider pop-up present for electric.
+2025-03-19 08:55:01,274 [INFO] No 'View More' button found.
+2025-03-19 08:55:04,366 [ERROR] No plan cards found.
+2025-03-19 08:55:11,092 [INFO] Loaded successfully for Zip Code: 21635
+2025-03-19 08:55:16,531 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:55:16,532 [INFO] No provider pop-up present for electric.
+2025-03-19 08:55:18,586 [INFO] No 'View More' button found.
+2025-03-19 08:55:21,693 [ERROR] No plan cards found.
+2025-03-19 08:55:28,104 [INFO] Loaded successfully for Zip Code: 20623
+2025-03-19 08:55:33,521 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:55:33,522 [INFO] No provider pop-up present for electric.
+2025-03-19 08:55:35,577 [INFO] No 'View More' button found.
+2025-03-19 08:55:38,675 [ERROR] No plan cards found.
+2025-03-19 08:55:44,673 [INFO] Loaded successfully for Zip Code: 02119
+2025-03-19 08:55:50,099 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:55:50,099 [INFO] No provider pop-up present for electric.
+2025-03-19 08:55:52,146 [INFO] No 'View More' button found.
+2025-03-19 08:55:52,338 [INFO] Visible cards: 5
+2025-03-19 08:55:53,147 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:55:59,866 [INFO] Loaded successfully for Zip Code: 08401
+2025-03-19 08:56:04,899 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:56:04,900 [INFO] No provider pop-up present for electric.
+2025-03-19 08:56:06,946 [INFO] No 'View More' button found.
+2025-03-19 08:56:07,078 [INFO] Visible cards: 4
+2025-03-19 08:56:07,558 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:56:14,889 [INFO] Loaded successfully for Zip Code: 08501
+2025-03-19 08:56:14,914 [INFO] For Zip Code 08501, utility found is: Jersey Central Power and Light
+2025-03-19 08:56:15,993 [INFO] Clicked provider radio button for utility: Jersey Central Power and Light
+2025-03-19 08:56:16,162 [INFO] Clicked 'Not Interested' for gas.
+2025-03-19 08:56:19,460 [INFO] No 'View More' button found.
+2025-03-19 08:56:20,114 [INFO] Visible cards: 4
+2025-03-19 08:56:20,676 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:56:26,883 [INFO] Loaded successfully for Zip Code: 07002
+2025-03-19 08:56:32,109 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:56:32,110 [INFO] No provider pop-up present for electric.
+2025-03-19 08:56:34,157 [INFO] No 'View More' button found.
+2025-03-19 08:56:34,312 [INFO] Visible cards: 3
+2025-03-19 08:56:34,666 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:56:41,436 [INFO] Loaded successfully for Zip Code: 07430
+2025-03-19 08:56:46,911 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:56:46,912 [INFO] No provider pop-up present for electric.
+2025-03-19 08:56:48,989 [INFO] No 'View More' button found.
+2025-03-19 08:56:49,149 [INFO] Visible cards: 4
+2025-03-19 08:56:49,491 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:56:55,725 [INFO] Loaded successfully for Zip Code: 43006
+2025-03-19 08:56:55,759 [INFO] For Zip Code 43006, utility found is: Ohio Power
+2025-03-19 08:56:56,803 [ERROR] Could not find provider radio button for utility: Ohio Power
+2025-03-19 08:56:56,972 [INFO] Clicked 'Not Interested' for gas.
+2025-03-19 08:57:00,363 [INFO] No 'View More' button found.
+2025-03-19 08:57:00,453 [INFO] Visible cards: 5
+2025-03-19 08:57:00,862 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:57:07,500 [INFO] Loaded successfully for Zip Code: 44030
+2025-03-19 08:57:12,783 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:57:12,784 [INFO] No provider pop-up present for electric.
+2025-03-19 08:57:14,861 [INFO] No 'View More' button found.
+2025-03-19 08:57:15,067 [INFO] Visible cards: 5
+2025-03-19 08:57:15,572 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:57:21,644 [INFO] Loaded successfully for Zip Code: 45745
+2025-03-19 08:57:26,757 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:57:26,758 [INFO] No provider pop-up present for electric.
+2025-03-19 08:57:28,831 [INFO] No 'View More' button found.
+2025-03-19 08:57:28,959 [INFO] Visible cards: 5
+2025-03-19 08:57:29,372 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:57:35,730 [INFO] Loaded successfully for Zip Code: 45039
+2025-03-19 08:57:40,979 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:57:40,980 [INFO] No provider pop-up present for electric.
+2025-03-19 08:57:43,059 [INFO] No 'View More' button found.
+2025-03-19 08:57:43,193 [INFO] Visible cards: 5
+2025-03-19 08:57:43,679 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:57:49,859 [INFO] Loaded successfully for Zip Code: 45899
+2025-03-19 08:57:55,216 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:57:55,217 [INFO] No provider pop-up present for electric.
+2025-03-19 08:57:57,282 [INFO] No 'View More' button found.
+2025-03-19 08:57:57,363 [INFO] Visible cards: 5
+2025-03-19 08:57:57,901 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:58:07,102 [INFO] Loaded successfully for Zip Code: 44212
+2025-03-19 08:58:12,421 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:58:12,421 [INFO] No provider pop-up present for electric.
+2025-03-19 08:58:14,496 [INFO] No 'View More' button found.
+2025-03-19 08:58:14,618 [INFO] Visible cards: 5
+2025-03-19 08:58:15,007 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:58:21,725 [INFO] Loaded successfully for Zip Code: 43608
+2025-03-19 08:58:26,799 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:58:26,800 [INFO] No provider pop-up present for electric.
+2025-03-19 08:58:28,864 [INFO] No 'View More' button found.
+2025-03-19 08:58:29,024 [INFO] Visible cards: 5
+2025-03-19 08:58:29,490 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:58:35,790 [INFO] Loaded successfully for Zip Code: 15001
+2025-03-19 08:58:41,164 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:58:41,164 [INFO] No provider pop-up present for electric.
+2025-03-19 08:58:42,480 [INFO] Clicked 'View More' button.
+2025-03-19 08:58:45,533 [INFO] No 'View More' button found.
+2025-03-19 08:58:45,671 [INFO] Visible cards: 7
+2025-03-19 08:58:46,397 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:58:52,645 [INFO] Loaded successfully for Zip Code: 19516
+2025-03-19 08:58:57,936 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:58:57,936 [INFO] No provider pop-up present for electric.
+2025-03-19 08:58:59,990 [INFO] No 'View More' button found.
+2025-03-19 08:59:00,089 [INFO] Visible cards: 6
+2025-03-19 08:59:00,727 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:59:07,019 [INFO] Loaded successfully for Zip Code: 19104
+2025-03-19 08:59:07,105 [INFO] For Zip Code 19104, utility found is: Peco Electricity
+2025-03-19 08:59:08,182 [INFO] Clicked provider radio button for utility: Peco Electricity
+2025-03-19 08:59:13,319 [INFO] No 'Not Interested' button present, continuing.
+2025-03-19 08:59:16,617 [INFO] No 'View More' button found.
+2025-03-19 08:59:16,716 [INFO] Visible cards: 6
+2025-03-19 08:59:17,651 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:59:24,234 [INFO] Loaded successfully for Zip Code: 15904
+2025-03-19 08:59:29,459 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:59:29,459 [INFO] No provider pop-up present for electric.
+2025-03-19 08:59:31,506 [INFO] No 'View More' button found.
+2025-03-19 08:59:31,596 [INFO] Visible cards: 6
+2025-03-19 08:59:32,268 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:59:38,195 [INFO] Loaded successfully for Zip Code: 17001
+2025-03-19 08:59:43,662 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:59:43,663 [INFO] No provider pop-up present for electric.
+2025-03-19 08:59:45,718 [INFO] No 'View More' button found.
+2025-03-19 08:59:45,802 [INFO] Visible cards: 6
+2025-03-19 08:59:46,489 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 08:59:53,094 [INFO] Loaded successfully for Zip Code: 16124
+2025-03-19 08:59:58,362 [INFO] Provider pop-up container not found for electric.
+2025-03-19 08:59:58,362 [INFO] No provider pop-up present for electric.
+2025-03-19 09:00:00,408 [INFO] No 'View More' button found.
+2025-03-19 09:00:00,568 [INFO] Visible cards: 6
+2025-03-19 09:00:01,537 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:00:08,025 [INFO] Loaded successfully for Zip Code: 15031
+2025-03-19 09:00:13,130 [INFO] Provider pop-up container not found for electric.
+2025-03-19 09:00:13,131 [INFO] No provider pop-up present for electric.
+2025-03-19 09:00:15,179 [INFO] No 'View More' button found.
+2025-03-19 09:00:15,326 [INFO] Visible cards: 6
+2025-03-19 09:00:16,095 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:00:22,688 [INFO] Loaded successfully for Zip Code: 01072
+2025-03-19 09:00:28,033 [INFO] Provider pop-up container not found for electric.
+2025-03-19 09:00:28,033 [INFO] No provider pop-up present for electric.
+2025-03-19 09:00:30,084 [INFO] No 'View More' button found.
+2025-03-19 09:00:30,182 [INFO] Visible cards: 5
+2025-03-19 09:00:30,610 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:00:36,582 [INFO] Loaded successfully for Zip Code: 02108
+2025-03-19 09:00:41,777 [INFO] Provider pop-up container not found for gas.
+2025-03-19 09:00:41,778 [INFO] No provider pop-up present for gas.
+2025-03-19 09:00:42,356 [INFO] Clicked 'Natural Gas' tab.
+2025-03-19 09:00:45,650 [INFO] No 'View More' button found.
+2025-03-19 09:00:45,778 [INFO] Visible cards: 4
+2025-03-19 09:00:46,165 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:00:52,512 [INFO] Loaded successfully for Zip Code: 48001
+2025-03-19 09:00:52,541 [INFO] For Zip Code 48001, gas utility found is: Consumers Energy
+2025-03-19 09:00:53,645 [INFO] Clicked provider radio button for gas utility: Consumers Energy
+2025-03-19 09:00:58,826 [INFO] No 'Not Interested' button present, continuing.
+2025-03-19 09:01:05,285 [INFO] No 'Natural Gas' tab found.
+2025-03-19 09:01:07,338 [INFO] No 'View More' button found.
+2025-03-19 09:01:07,495 [INFO] Visible cards: 4
+2025-03-19 09:01:08,059 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:01:14,968 [INFO] Loaded successfully for Zip Code: 48001
+2025-03-19 09:01:15,228 [INFO] For Zip Code 48001, gas utility found is: DTE Gas
+2025-03-19 09:01:16,758 [INFO] Clicked provider radio button for gas utility: DTE Gas
+2025-03-19 09:01:22,114 [INFO] No 'Not Interested' button present, continuing.
+2025-03-19 09:01:29,090 [INFO] No 'Natural Gas' tab found.
+2025-03-19 09:01:31,163 [INFO] No 'View More' button found.
+2025-03-19 09:01:31,299 [INFO] Visible cards: 4
+2025-03-19 09:01:32,013 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:01:38,896 [INFO] Loaded successfully for Zip Code: 21005
+2025-03-19 09:01:44,016 [INFO] Provider pop-up container not found for gas.
+2025-03-19 09:01:44,017 [INFO] No provider pop-up present for gas.
+2025-03-19 09:01:44,753 [INFO] Clicked 'Natural Gas' tab.
+2025-03-19 09:01:48,056 [INFO] No 'View More' button found.
+2025-03-19 09:01:51,285 [ERROR] No plan cards found.
+2025-03-19 09:02:00,774 [INFO] Loaded successfully for Zip Code: 20630
+2025-03-19 09:02:05,922 [INFO] Provider pop-up container not found for gas.
+2025-03-19 09:02:05,923 [INFO] No provider pop-up present for gas.
+2025-03-19 09:02:11,130 [INFO] No 'Natural Gas' tab found.
+2025-03-19 09:02:13,229 [INFO] No 'View More' button found.
+2025-03-19 09:02:16,393 [ERROR] No plan cards found.
+2025-03-19 09:02:23,405 [INFO] Loaded successfully for Zip Code: 07083
+2025-03-19 09:02:23,762 [INFO] For Zip Code 07083, gas utility found is: Elizabethtown Gas
+2025-03-19 09:02:24,840 [INFO] Clicked provider radio button for gas utility: Elizabethtown Gas
+2025-03-19 09:02:25,003 [INFO] Clicked 'Not Interested' for electricity.
+2025-03-19 09:02:31,565 [INFO] No 'Natural Gas' tab found.
+2025-03-19 09:02:33,605 [INFO] No 'View More' button found.
+2025-03-19 09:02:33,675 [INFO] Visible cards: 3
+2025-03-19 09:02:34,171 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:02:40,460 [INFO] Loaded successfully for Zip Code: 07701
+2025-03-19 09:02:45,471 [INFO] Provider pop-up container not found for gas.
+2025-03-19 09:02:45,471 [INFO] No provider pop-up present for gas.
+2025-03-19 09:02:46,622 [INFO] No 'Natural Gas' tab found.
+2025-03-19 09:02:48,690 [INFO] No 'View More' button found.
+2025-03-19 09:02:48,818 [INFO] Visible cards: 4
+2025-03-19 09:02:49,326 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:02:55,828 [INFO] Loaded successfully for Zip Code: 08001
+2025-03-19 09:03:01,289 [INFO] Provider pop-up container not found for gas.
+2025-03-19 09:03:01,289 [INFO] No provider pop-up present for gas.
+2025-03-19 09:03:01,765 [INFO] Clicked 'Natural Gas' tab.
+2025-03-19 09:03:04,860 [INFO] No 'View More' button found.
+2025-03-19 09:03:05,004 [INFO] Visible cards: 3
+2025-03-19 09:03:05,466 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:03:12,484 [INFO] Loaded successfully for Zip Code: 02903
+2025-03-19 09:03:17,730 [INFO] Provider pop-up container not found for electric.
+2025-03-19 09:03:17,731 [INFO] No provider pop-up present for electric.
+2025-03-19 09:03:19,787 [INFO] No 'View More' button found.
+2025-03-19 09:03:19,912 [INFO] Visible cards: 6
+2025-03-19 09:03:20,719 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:03:28,016 [INFO] Loaded successfully for Zip Code: 07002
+2025-03-19 09:03:33,445 [INFO] Provider pop-up container not found for gas.
+2025-03-19 09:03:33,445 [INFO] No provider pop-up present for gas.
+2025-03-19 09:03:33,922 [INFO] Clicked 'Natural Gas' tab.
+2025-03-19 09:03:37,063 [INFO] No 'View More' button found.
+2025-03-19 09:03:37,281 [INFO] Visible cards: 3
+2025-03-19 09:03:37,834 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:03:50,120 [INFO] Loaded successfully for Zip Code: 60601
+2025-03-19 09:03:50,148 [INFO] For Zip Code 60601, gas utility found is: Nicor Gas
+2025-03-19 09:03:51,216 [INFO] Clicked provider radio button for gas utility: Nicor Gas
+2025-03-19 09:03:51,493 [INFO] Clicked 'Not Interested' for electricity.
+2025-03-19 09:03:57,920 [INFO] No 'Natural Gas' tab found.
+2025-03-19 09:03:59,978 [INFO] No 'View More' button found.
+2025-03-19 09:04:00,061 [INFO] Visible cards: 3
+2025-03-19 09:04:00,553 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:04:07,591 [INFO] Loaded successfully for Zip Code: 46410
+2025-03-19 09:04:12,673 [INFO] Provider pop-up container not found for gas.
+2025-03-19 09:04:12,673 [INFO] No provider pop-up present for gas.
+2025-03-19 09:04:17,874 [INFO] No 'Natural Gas' tab found.
+2025-03-19 09:04:19,948 [INFO] No 'View More' button found.
+2025-03-19 09:04:20,037 [INFO] Visible cards: 3
+2025-03-19 09:04:20,485 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:04:26,821 [INFO] Loaded successfully for Zip Code: 45069
+2025-03-19 09:04:32,307 [INFO] Provider pop-up container not found for gas.
+2025-03-19 09:04:32,308 [INFO] No provider pop-up present for gas.
+2025-03-19 09:04:32,733 [INFO] Clicked 'Natural Gas' tab.
+2025-03-19 09:04:35,844 [INFO] No 'View More' button found.
+2025-03-19 09:04:36,153 [INFO] Visible cards: 3
+2025-03-19 09:04:36,790 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:04:44,167 [INFO] Loaded successfully for Zip Code: 44127
+2025-03-19 09:04:49,522 [INFO] Provider pop-up container not found for gas.
+2025-03-19 09:04:49,523 [INFO] No provider pop-up present for gas.
+2025-03-19 09:04:50,302 [INFO] Clicked 'Natural Gas' tab.
+2025-03-19 09:04:53,397 [INFO] No 'View More' button found.
+2025-03-19 09:04:53,678 [INFO] Visible cards: 3
+2025-03-19 09:04:54,499 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:05:01,320 [INFO] Loaded successfully for Zip Code: 17222
+2025-03-19 09:05:01,686 [INFO] For Zip Code 17222, gas utility found is: Columbia Gas of Pennsylvania
+2025-03-19 09:05:02,776 [INFO] Clicked provider radio button for gas utility: Columbia Gas of Pennsylvania
+2025-03-19 09:05:02,913 [INFO] Clicked 'Not Interested' for electricity.
+2025-03-19 09:05:09,449 [INFO] No 'Natural Gas' tab found.
+2025-03-19 09:05:11,538 [INFO] No 'View More' button found.
+2025-03-19 09:05:14,778 [INFO] Visible cards: 3
+2025-03-19 09:05:15,241 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:05:41,493 [INFO] Loaded successfully for Zip Code: 60015
+2025-03-19 09:05:41,809 [INFO] For Zip Code 60015, gas utility found is: North Shore Gas
+2025-03-19 09:05:42,947 [INFO] Clicked provider radio button for gas utility: North Shore Gas
+2025-03-19 09:05:43,090 [INFO] Clicked 'Not Interested' for electricity.
+2025-03-19 09:05:49,752 [INFO] No 'Natural Gas' tab found.
+2025-03-19 09:05:51,832 [INFO] No 'View More' button found.
+2025-03-19 09:05:51,960 [INFO] Visible cards: 3
+2025-03-19 09:05:52,559 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:05:59,092 [INFO] Loaded successfully for Zip Code: 60687
+2025-03-19 09:06:04,342 [INFO] Provider pop-up container not found for gas.
+2025-03-19 09:06:04,342 [INFO] No provider pop-up present for gas.
+2025-03-19 09:06:09,533 [INFO] No 'Natural Gas' tab found.
+2025-03-19 09:06:11,612 [INFO] No 'View More' button found.
+2025-03-19 09:06:11,667 [INFO] Visible cards: 3
+2025-03-19 09:06:12,075 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:06:18,593 [INFO] Loaded successfully for Zip Code: 01520
+2025-03-19 09:06:23,775 [INFO] Provider pop-up container not found for gas.
+2025-03-19 09:06:23,775 [INFO] No provider pop-up present for gas.
+2025-03-19 09:06:28,975 [INFO] No 'Natural Gas' tab found.
+2025-03-19 09:06:31,056 [INFO] No 'View More' button found.
+2025-03-19 09:07:01,271 [ERROR] No plan cards found.
+2025-03-19 09:07:08,226 [INFO] Loaded successfully for Zip Code: 20001
+2025-03-19 09:07:13,471 [INFO] Provider pop-up container not found for electric.
+2025-03-19 09:07:13,472 [INFO] No provider pop-up present for electric.
+2025-03-19 09:07:15,560 [INFO] No 'View More' button found.
+2025-03-19 09:07:15,789 [INFO] Visible cards: 5
+2025-03-19 09:07:16,444 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:07:23,140 [INFO] Loaded successfully for Zip Code: 43036
+2025-03-19 09:07:28,390 [INFO] Provider pop-up container not found for gas.
+2025-03-19 09:07:28,390 [INFO] No provider pop-up present for gas.
+2025-03-19 09:07:29,264 [INFO] Clicked 'Natural Gas' tab.
+2025-03-19 09:07:32,372 [INFO] No 'View More' button found.
+2025-03-19 09:07:32,539 [INFO] Visible cards: 3
+2025-03-19 09:07:33,064 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:07:39,365 [INFO] Loaded successfully for Zip Code: 43343
+2025-03-19 09:07:44,746 [INFO] Provider pop-up container not found for gas.
+2025-03-19 09:07:44,747 [INFO] No provider pop-up present for gas.
+2025-03-19 09:07:45,793 [INFO] Clicked 'Natural Gas' tab.
+2025-03-19 09:07:48,923 [INFO] No 'View More' button found.
+2025-03-19 09:07:49,279 [INFO] Visible cards: 4
+2025-03-19 09:07:50,027 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:07:56,730 [INFO] Loaded successfully for Zip Code: 18974
+2025-03-19 09:07:56,851 [INFO] For Zip Code 18974, gas utility found is: Peco Electricity
+2025-03-19 09:07:57,948 [INFO] Clicked provider radio button for gas utility: Peco Electricity
+2025-03-19 09:07:58,155 [INFO] Clicked 'Not Interested' for electricity.
+2025-03-19 09:08:05,153 [INFO] No 'Natural Gas' tab found.
+2025-03-19 09:08:07,214 [INFO] No 'View More' button found.
+2025-03-19 09:08:07,282 [INFO] Visible cards: 3
+2025-03-19 09:08:07,802 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:08:13,989 [INFO] Loaded successfully for Zip Code: 18411
+2025-03-19 09:08:19,357 [INFO] Provider pop-up container not found for gas.
+2025-03-19 09:08:19,357 [INFO] No provider pop-up present for gas.
+2025-03-19 09:08:20,272 [INFO] Clicked 'Natural Gas' tab.
+2025-03-19 09:08:23,379 [INFO] No 'View More' button found.
+2025-03-19 09:08:23,599 [INFO] Visible cards: 4
+2025-03-19 09:08:24,336 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:08:30,075 [INFO] Loaded successfully for Zip Code: 03251
+2025-03-19 09:08:35,550 [INFO] Provider pop-up container not found for electric.
+2025-03-19 09:08:35,550 [INFO] No provider pop-up present for electric.
+2025-03-19 09:08:36,811 [INFO] Clicked 'View More' button.
+2025-03-19 09:08:39,903 [INFO] No 'View More' button found.
+2025-03-19 09:08:40,178 [INFO] Visible cards: 7
+2025-03-19 09:08:41,532 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:08:47,720 [INFO] Loaded successfully for Zip Code: 06001
+2025-03-19 09:08:52,846 [INFO] Provider pop-up container not found for electric.
+2025-03-19 09:08:52,847 [INFO] No provider pop-up present for electric.
+2025-03-19 09:08:54,269 [INFO] Clicked 'View More' button.
+2025-03-19 09:08:57,357 [INFO] No 'View More' button found.
+2025-03-19 09:08:57,556 [INFO] Visible cards: 8
+2025-03-19 09:08:58,888 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:09:05,630 [INFO] Loaded successfully for Zip Code: 06006
+2025-03-19 09:09:05,846 [INFO] For Zip Code 06006, utility found is: United Illuminating Company
+2025-03-19 09:09:06,926 [INFO] Clicked provider radio button for utility: United Illuminating Company
+2025-03-19 09:09:12,134 [INFO] No 'Not Interested' button present, continuing.
+2025-03-19 09:09:15,541 [INFO] No 'View More' button found.
+2025-03-19 09:09:16,220 [INFO] Visible cards: 6
+2025-03-19 09:09:17,099 [INFO] Data successfully written to file Output_03192025.xlsx
+2025-03-19 09:09:19,767 [INFO] Web scrape is complete.
+2025-03-19 09:09:20,512 [INFO] QC file completed.
