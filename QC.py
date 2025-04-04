@@ -22,11 +22,11 @@ def run_qc():
         df_output = pd.DataFrame() 
 
     # Convert relevant columns to strings
-    df_input["Zip Code"] = df_input["Zip Code"].astype(str)
+    df_input["Zip Code"] = df_input["Zip Code"].astype(str).str.zfill(5)
     df_input["Bundle Id"] = df_input["Bundle Id"].astype(str)
     df_input["Name"] = df_input["Name"].astype(str)
 
-    df_output["ZipCode"] = df_output["ZipCode"].astype(str)
+    df_output["ZipCode"] = df_output["ZipCode"].astype(str).str.zfill(5)
     df_output["Bundle"] = df_output["Bundle"].astype(str)
     df_output["Utility"] = df_output["Utility"].astype(str)
 
@@ -54,7 +54,10 @@ def run_qc():
     # Identify mismatches and append the reason
     if "Term/End Date" in df_merged.columns and "Plan Term" in df_merged.columns:
         df_merged.loc[df_merged["Term/End Date"] != df_merged["Plan Term"], "Match"] += "Plan Term, "
-    df_merged.loc[df_merged["Price"] != df_merged["rateamt"], "Match"] += "Price, "
+
+    # Use a tolerance for float comparison
+    df_merged.loc[(df_merged["Price"] - df_merged["rateamt"]).abs() > 0.0001, "Match"] += "Price, "
+
     df_merged.loc[df_merged["UOM_input"] != df_merged["UOM_output"], "Match"] += "UOM, "
     df_merged.loc[df_merged["ZipCode"] == "00000", "Match"] += "Zipcode, "
     df_merged.loc[df_merged["_merge"] == "left_only", "Match"] += "Missing in output, "

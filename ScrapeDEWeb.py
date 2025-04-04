@@ -29,19 +29,20 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     handlers=[
-        logging.FileHandler("WebScrapeOutput" + datetime.datetime.now().strftime("%d%m%Y") + ".log", mode="w"),
+        logging.FileHandler("WebScrapeOutput" + datetime.datetime.now().strftime("%m%d%Y") + ".log", mode="w"),
         logging.StreamHandler()
     ])
 
 def gather_website_data(driver, in_ZipCode, in_Utility, in_Commodity):
     url = f"https://shop.directenergy.com/search-for-plans?zipCode={in_ZipCode}"
     driver.get(url)
+    time.sleep(2)
     wait = WebDriverWait(driver, 30)
 
     # Wait for DE logo to ensure the page has loaded
     try:
         wait.until(EC.presence_of_element_located((By.XPATH, "//img[contains(@alt, 'DE Logo')]")))
-        time.sleep(1)
+        time.sleep(3)
         logging.info(f"Loaded successfully for Zip Code: {in_ZipCode}")
     except Exception as e:
         logging.error(f"Loaded unsuccessfully for Zip Code: {in_ZipCode} - Error: {e}")
@@ -95,7 +96,7 @@ def gather_website_data(driver, in_ZipCode, in_Utility, in_Commodity):
                     EC.element_to_be_clickable((By.XPATH, continue_button_xpath))
                 )
                 continue_button.click()
-                time.sleep(1)
+                time.sleep(3)
             except Exception as e:
                 logging.error("Error during provider pop-up handling for electric:", e)
         else:
@@ -148,7 +149,7 @@ def gather_website_data(driver, in_ZipCode, in_Utility, in_Commodity):
                     EC.element_to_be_clickable((By.XPATH, continue_button_xpath))
                 )
                 continue_button.click()
-                time.sleep(1)
+                time.sleep(3)
             except Exception as e:
                 logging.error("Error during provider pop-up handling for gas:", e)
         else:
@@ -215,7 +216,7 @@ def gather_website_data(driver, in_ZipCode, in_Utility, in_Commodity):
         try:
             price_value = card.find_element(By.XPATH, ".//div[contains(@class, 'header-2')]/h2").text.strip()
             price_unit = card.find_element(By.XPATH, ".//div[contains(@class, 'unit')]/p").text.strip().lstrip('/')
-            price = f"{float(price_value)/100}" if in_Commodity.lower() != "gas" else f"{price_value}"
+            price = float(price_value)/100 if in_Commodity.lower() != "gas" else price_value
         except Exception:
             price = "N/A"
             price_unit = "N/A"
